@@ -1,0 +1,31 @@
+{
+    "manifest_version": 2,
+    "name": "PracticePortuguese Extension",
+    "version": "1.0",
+    "description": "Text input support for flash cards on practice PracticePortuguese.com",
+    "permissions": [
+        "activeTab"
+    ],
+    "icons": {
+        "48": "icons/icon.png"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.practiceportuguese.com/flash-cards/"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ],
+    "browser_action": {
+        "default_popup": "popup.html",
+        "default_icon": "icons/icon.png",
+        "default_title": "PracticePortuguese Extension"
+    },
+    "background": {
+      "scripts": ["background.js"],
+      "persistent": false
+    }
+}
