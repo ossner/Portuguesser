@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
-    "name": "PracticePortuguese Extension",
+    "name": "Portuguesser",
     "version": "1.0",
-    "description": "Text input support for flash cards on practice PracticePortuguese.com",
+    "description": "Text input companion for flash cards on practice PracticePortuguese.com",
     "permissions": [
         "activeTab"
     ],
@@ -22,7 +22,7 @@
     "browser_action": {
         "default_popup": "popup.html",
         "default_icon": "icons/icon.png",
-        "default_title": "PracticePortuguese Extension"
+        "default_title": "Portuguesser"
     },
     "background": {
       "scripts": ["background.js"],
