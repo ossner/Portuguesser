@@ -1,8 +1,9 @@
 var correctSolution = "";
 var suppliedSolution = "";
 
+// listen for the submit message
 const messageListener = function (message) {
-  if (message.action === "send_message") {
+  if (message.action === "send_guess") {
     // Forward the message to the content script
     suppliedSolution = message.message;
     browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -33,6 +34,7 @@ function comparePortugueseSentences() {
   if (normalizedSolution === normalizedGuess) {
     return 0;
   } else if (
+    // If the answers match except for accents
     normalizedSolution.replace(/[\u0300-\u036f]/g, "") ===
     normalizedGuess.replace(/[\u0300-\u036f]/g, "")
   ) {

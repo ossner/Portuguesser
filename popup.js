@@ -8,17 +8,16 @@ document.addEventListener("DOMContentLoaded", function () {
   incorrectButton.disabled = true;
   lastAnswerCorrect = false;
 
+  // submit guess to content.js
   function sendMessage() {
     const message = messageInput.value;
-    browser.runtime.sendMessage({ action: "send_message", message });
+    browser.runtime.sendMessage({ action: "send_guess", message });
     toggleButtonStates(true, false, false);
   }
-
   function handleCorrectButtonClick() {
     browser.runtime.sendMessage({ action: "clickCorrect" });
     resetControls();
   }
-
   function handleIncorrectButtonClick() {
     browser.runtime.sendMessage({ action: "clickWrong" });
     resetControls();
@@ -59,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
   correctButton.addEventListener("click", handleCorrectButtonClick);
   incorrectButton.addEventListener("click", handleIncorrectButtonClick);
 
+  // Change colors based on response we get from the sentence checker
   browser.runtime.onMessage.addListener(function (message) {
     if (message.action === "update_css") {
       switch (message.inputCorrect) {
