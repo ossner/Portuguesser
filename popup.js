@@ -1,11 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const correctButton = document.getElementById("clickCorrect");
-  const incorrectButton = document.getElementById("clickWrong");
-  const sendMessageButton = document.getElementById("sendMessage");
-  const messageInput = document.getElementById("messageInput");
+  const correctButton = document.getElementById("acceptButton");
+  const incorrectButton = document.getElementById("rejectButton");
+  const checkGuessButton = document.getElementById("checkButton");
+  const messageInput = document.getElementById("answerInput");
 
   correctButton.disabled = true;
   incorrectButton.disabled = true;
+  lastAnswerCorrect = false;
 
   function sendMessage() {
     const message = messageInput.value;
@@ -25,7 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function resetControls() {
     messageInput.value = "";
-    messageInput.style.backgroundColor = "white"
+    messageInput.style.backgroundColor = "white";
+    lastAnswerCorrect = false;
     toggleButtonStates(false, true, true);
   }
 
@@ -34,26 +36,43 @@ document.addEventListener("DOMContentLoaded", function () {
     correctDisabled,
     incorrectDisabled
   ) {
-    sendMessageButton.disabled = sendDisabled;
+    checkGuessButton.disabled = sendDisabled;
     correctButton.disabled = correctDisabled;
     incorrectButton.disabled = incorrectDisabled;
   }
 
-  sendMessageButton.addEventListener("click", sendMessage);
+  checkGuessButton.addEventListener("click", sendMessage);
   messageInput.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
-      sendMessage();
+      if (!checkGuessButton.disabled) {
+        // If the user is in the initial screen, enter can be used to send a message
+        sendMessage();
+      } else {
+        if (lastAnswerCorrect) {
+          // As a shortcut. If the entered answer was correct, the user can press enter to accept the answer
+          handleCorrectButtonClick();
+        }
+      }
     }
   });
+
   correctButton.addEventListener("click", handleCorrectButtonClick);
   incorrectButton.addEventListener("click", handleIncorrectButtonClick);
+
   browser.runtime.onMessage.addListener(function (message) {
     if (message.action === "update_css") {
-        if (message.inputCorrect) {
-            messageInput.style.backgroundColor = "green";
-        } else {
-            messageInput.style.backgroundColor = "red";
-        }
+      switch (message.inputCorrect) {
+        case 0:
+          messageInput.style.backgroundColor = "#4CAF50";
+          lastAnswerCorrect = true;
+          break;
+        case 1:
+          messageInput.style.backgroundColor = "#FFC107";
+          break;
+        case 2:
+          messageInput.style.backgroundColor = "#FF5252";
+          break;
+      }
     }
   });
 });
