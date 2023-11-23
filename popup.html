@@ -46,12 +46,56 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portutype</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        padding: 15px;
+        text-align: center;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      #answerInput {
+        width: 80%;
+        padding: 10px;
+        margin-bottom: 10px;
+        font-size: 16px;
+      }
+
+      #checkButton {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+      }
+
+      #acceptButton,
+      #rejectButton {
+        background-color: #008cba;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        margin-top: 10px;
+        border: none;
+        cursor: pointer;
+      }
+      #checkButton:disabled,
+      #acceptButton:disabled,
+      #rejectButton:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    </style>
     <script src="popup.js"></script>
   </head>
   <body>
-    <input type="text" id="messageInput" placeholder="Enter your message" />
-    <button id="sendMessage">Send Message</button>
-    <button id="clickCorrect">Accept</button>
-    <button id="clickWrong">Don't accept</button>
+    <input type="text" id="answerInput" placeholder="Enter Translation" />
+    <button id="checkButton">Check</button>
+    <button id="acceptButton">Accept</button>
+    <button id="rejectButton">Don't accept</button>
   </body>
 </html>
