@@ -4,25 +4,42 @@ var suppliedSolution = "";
 const messageListener = function (message) {
   if (message.action === "send_message") {
     // Forward the message to the content script
-    suppliedSolution = message.message
+    suppliedSolution = message.message;
     browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       const activeTabId = tabs[0].id;
       browser.tabs.sendMessage(activeTabId, message);
     });
-    console.log("correct: " + correctSolution);
-    console.log("supplied: " + suppliedSolution);
     browser.runtime.sendMessage({
       action: "update_css",
-      inputCorrect: validateInput(),
+      inputCorrect: comparePortugueseSentences(),
     });
   }
 };
 
-function validateInput() {
-  return (
-    correctSolution.trim().toLowerCase() ===
-    suppliedSolution.trim().toLowerCase()
-  );
+function comparePortugueseSentences() {
+  // Normalize both sentences
+  const normalizedSolution = correctSolution
+    .trim()
+    .normalize("NFD")
+    .toLowerCase()
+    .replace(/[.,;:'"!?]/g, "");
+  const normalizedGuess = suppliedSolution
+    .trim()
+    .normalize("NFD")
+    .toLowerCase()
+    .replace(/[.,;:'"!?]/g, "");
+
+  // Compare the normalized sentences
+  if (normalizedSolution === normalizedGuess) {
+    return 0;
+  } else if (
+    normalizedSolution.replace(/[\u0300-\u036f]/g, "") ===
+    normalizedGuess.replace(/[\u0300-\u036f]/g, "")
+  ) {
+    return 1;
+  } else {
+    return 2;
+  }
 }
 
 const buttonListener = function (button) {
