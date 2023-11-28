@@ -15,7 +15,7 @@
                 "https://www.practiceportuguese.com/flash-cards/"
             ],
             "js": [
-                "content.js"
+                "src/content.js"
             ]
         }
     ],
@@ -25,7 +25,7 @@
         "default_title": "Portuguesser"
     },
     "background": {
-      "scripts": ["background.js"],
+      "scripts": ["src/background.js"],
       "persistent": false
     }
 }
